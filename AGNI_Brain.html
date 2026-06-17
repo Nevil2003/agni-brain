@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<!-- AGNI BRAIN — consolidated knowledge hub · Mastical Venture Studio · concept/research stage -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AGNI Brain — everything we know</title>
+<meta name="description" content="Consolidated knowledge base for AGNI Health: the science, the hardware, the score, the four states, clinical decisions, market, partnerships and every asset built." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0807; --bg2:#120f0d; --card:#181311; --card2:#1f1815;
+    --ember:#ff6a1a; --saffron:#f2a93b;
+    --ink:#f4ede4; --ink2:#cbbfb4; --muted:#94877c;
+    --line:rgba(242,169,59,.12); --line2:rgba(242,169,59,.22);
+    --sama:#4fbf8b; --vishama:#f2a93b; --tikshna:#ff5436; --manda:#6f7fe0;
+    --disp:"Fraunces",Georgia,serif;
+    --body:"Hanken Grotesk",system-ui,sans-serif;
+    --mono:"Spline Sans Mono",ui-monospace,monospace;
+    --rail:268px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--body); font-size:15px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  ::selection{background:rgba(255,106,26,.3)}
+
+  /* ─── layout shell ─── */
+  .shell{display:grid; grid-template-columns:var(--rail) 1fr; min-height:100vh}
+
+  /* ─── rail ─── */
+  .rail{
+    position:sticky; top:0; align-self:start; height:100vh;
+    border-right:1px solid var(--line); background:linear-gradient(180deg,var(--bg2),var(--bg));
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+  .brand{padding:22px 22px 16px; border-bottom:1px solid var(--line)}
+  .brand .mark{display:flex; align-items:center; gap:9px}
+  .brand .glyph{width:26px;height:26px;flex:none}
+  .brand h1{font-family:var(--disp); font-weight:600; font-size:21px; margin:0; letter-spacing:-.01em}
+  .brand .tag{font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-top:7px}
+  .search{padding:14px 16px; border-bottom:1px solid var(--line)}
+  .search input{
+    width:100%; background:var(--card); border:1px solid var(--line2); color:var(--ink);
+    font-family:var(--mono); font-size:12.5px; padding:9px 11px; border-radius:8px; outline:none;
+  }
+  .search input::placeholder{color:var(--muted)}
+  .search input:focus{border-color:var(--ember)}
+  .search .hint{font-family:var(--mono); font-size:10px; color:var(--muted); margin-top:7px; letter-spacing:.04em}
+  nav{padding:10px 10px 26px; overflow-y:auto; flex:1}
+  nav a{
+    display:flex; gap:10px; align-items:baseline; text-decoration:none; color:var(--ink2);
+    font-size:13px; padding:7px 11px; border-radius:7px; line-height:1.3; transition:background .15s,color .15s;
+  }
+  nav a .n{font-family:var(--mono); font-size:10.5px; color:var(--muted); width:18px; flex:none}
+  nav a:hover{background:var(--card); color:var(--ink)}
+  nav a.active{background:var(--card2); color:var(--ink)}
+  nav a.active .n{color:var(--ember)}
+
+  /* ─── main ─── */
+  main{min-width:0}
+  .masthead{
+    position:relative; padding:46px 7vw 30px; border-bottom:1px solid var(--line); overflow:hidden;
+  }
+  .masthead canvas{position:absolute; inset:auto 0 0 0; width:100%; height:88px; opacity:.5}
+  .masthead .status{
+    display:inline-flex; align-items:center; gap:7px; font-family:var(--mono); font-size:10.5px;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--saffron);
+    border:1px solid var(--line2); border-radius:100px; padding:5px 12px; margin-bottom:18px;
+  }
+  .status .dot{width:6px;height:6px;border-radius:50%;background:var(--ember);box-shadow:0 0 10px var(--ember);animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  @media (prefers-reduced-motion:reduce){.status .dot{animation:none}}
+  .masthead h2{font-family:var(--disp); font-weight:600; font-size:clamp(30px,4.6vw,52px); line-height:1.02; letter-spacing:-.02em; margin:0 0 14px; max-width:18ch}
+  .masthead h2 em{font-style:italic; color:var(--ember)}
+  .masthead p{max-width:62ch; color:var(--ink2); font-size:16px; margin:0; position:relative}
+  .meta-row{display:flex; flex-wrap:wrap; gap:8px 22px; margin-top:22px; position:relative}
+  .meta-row span{font-family:var(--mono); font-size:11.5px; color:var(--muted)}
+  .meta-row b{color:var(--ink2); font-weight:500}
+
+  .wrap{padding:0 7vw 90px}
+  section{padding:46px 0 8px; border-bottom:1px solid var(--line); scroll-margin-top:12px}
+  section:last-child{border-bottom:none}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:22px}
+  .sec-head .num{font-family:var(--mono); font-size:12px; color:var(--ember); padding-top:5px}
+  .sec-head h3{font-family:var(--disp); font-weight:600; font-size:26px; margin:0; letter-spacing:-.01em}
+  .sec-head .sub{font-size:13px; color:var(--muted); margin-left:auto; max-width:40ch; text-align:right}
+
+  /* ─── cards & grids ─── */
+  .grid{display:grid; gap:14px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px 18px 17px;
+  }
+  .card.tint{background:linear-gradient(160deg,var(--card2),var(--card))}
+  .card h4{margin:0 0 7px; font-size:14px; font-weight:600; letter-spacing:.01em}
+  .card .lbl{font-family:var(--mono); font-size:10px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); margin-bottom:9px}
+  .card p{margin:0; color:var(--ink2); font-size:13.5px}
+  .card p + p{margin-top:8px}
+  .big{font-family:var(--disp); font-size:30px; font-weight:600; line-height:1; color:var(--ink)}
+  .big small{font-family:var(--body); font-size:13px; color:var(--muted); font-weight:400; margin-left:4px}
+
+  ul.tight{margin:8px 0 0; padding-left:18px; color:var(--ink2); font-size:13.5px}
+  ul.tight li{margin:4px 0}
+  ul.tight li::marker{color:var(--ember)}
+
+  /* ─── tables ─── */
+  .tbl{width:100%; border-collapse:collapse; font-size:13px; margin-top:4px}
+  .tbl th{
+    text-align:left; font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--muted); font-weight:500; padding:9px 12px; border-bottom:1px solid var(--line2);
+  }
+  .tbl td{padding:10px 12px; border-bottom:1px solid var(--line); color:var(--ink2); vertical-align:top}
+  .tbl tr:last-child td{border-bottom:none}
+  .tbl .mono{font-family:var(--mono); color:var(--ink); font-size:12.5px}
+  .tbl tr:hover td{background:rgba(255,106,26,.03)}
+  .scroll{overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--card)}
+
+  /* ─── formula block ─── */
+  .formula{
+    background:var(--bg2); border:1px solid var(--line2); border-radius:12px; padding:20px 22px;
+    font-family:var(--mono); font-size:14px; line-height:1.9; color:var(--ink); overflow-x:auto;
+  }
+  .formula .w{color:var(--ember)}
+  .formula .c{color:var(--muted)}
+
+  /* ─── states ─── */
+  .state{border-radius:12px; padding:16px 16px 15px; border:1px solid var(--line); background:var(--card); position:relative; overflow:hidden}
+  .state::before{content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--c)}
+  .state .nm{font-family:var(--disp); font-size:18px; font-weight:600; color:var(--c)}
+  .state .ti{font-size:12px; color:var(--muted); margin-bottom:9px}
+  .state .band{font-family:var(--mono); font-size:11px; color:var(--ink); margin:9px 0}
+  .state .row{font-size:12.5px; color:var(--ink2); margin:5px 0}
+  .state .row b{color:var(--ink); font-weight:600; font-family:var(--mono); font-size:11px; letter-spacing:.04em; text-transform:uppercase; display:block; color:var(--muted); margin-bottom:1px}
+
+  /* ─── pillars / pipeline ─── */
+  <style>
+  .pill{display:inline-block; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; padding:3px 9px; border-radius:100px; border:1px solid var(--line2); color:var(--saffron); margin-bottom:11px}
+  .paper{border-left:2px solid var(--line2); padding:2px 0 2px 14px; margin:0 0 14px}
+  .paper .t{font-size:13.5px; color:var(--ink); font-weight:600}
+  .paper .src{font-family:var(--mono); font-size:11px; color:var(--muted); margin-top:3px}
+  .paper .why{font-size:12.5px; color:var(--ink2); margin-top:5px}
+
+  .flow{display:flex; flex-wrap:wrap; gap:8px; align-items:stretch}
+  .flow .step{flex:1; min-width:150px; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:13px 14px}
+  .flow .step .k{font-family:var(--mono); font-size:10px; color:var(--ember); letter-spacing:.1em}
+  .flow .step h5{margin:5px 0 4px; font-size:13.5px}
+  .flow .step p{margin:0; font-size:12px; color:var(--muted)}
+
+  .note{display:flex; gap:11px; background:var(--card); border:1px solid var(--line); border-left:3px solid var(--ember); border-radius:10px; padding:13px 15px; margin-bottom:10px}
+  .note .ic{font-family:var(--mono); color:var(--ember); font-size:13px; flex:none; padding-top:1px}
+  .note p{margin:0; font-size:13px; color:var(--ink2)}
+  .note b{color:var(--ink)}
+
+  .asset{display:flex; align-items:center; gap:13px; padding:11px 14px; border:1px solid var(--line); border-radius:10px; background:var(--card); text-decoration:none; transition:border-color .15s,transform .12s}
+  .asset:hover{border-color:var(--line2); transform:translateX(2px)}
+  .asset .ty{font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--bg); background:var(--saffron); padding:3px 7px; border-radius:5px; flex:none}
+  .asset .nm{font-size:13.5px; color:var(--ink); font-weight:500}
+  .asset .ds{font-size:12px; color:var(--muted)}
+  .asset .arw{margin-left:auto; color:var(--muted); font-family:var(--mono)}
+
+  .check{list-style:none; padding:0; margin:0; display:grid; gap:9px}
+  .check li{display:flex; gap:11px; align-items:flex-start; font-size:13.5px; color:var(--ink2)}
+  .check li .box{font-family:var(--mono); color:var(--ember); flex:none}
+
+  .noresults{display:none; padding:60px 0; text-align:center; color:var(--muted); font-family:var(--mono); font-size:13px}
+  body.searching section.hidden{display:none}
+  body.searching .card.hidden,body.searching .paper.hidden,body.searching .asset.hidden,body.searching .state.hidden,body.searching .note.hidden,body.searching .tbl tr.hidden{display:none}
+
+  footer{padding:30px 7vw 50px; color:var(--muted); font-size:12px; font-family:var(--mono); line-height:1.7}
+
+  /* ─── mobile ─── */
+  .menu-btn{display:none}
+  @media(max-width:920px){
+    .shell{grid-template-columns:1fr}
+    .rail{position:fixed; inset:0 auto 0 0; width:300px; z-index:40; transform:translateX(-100%); transition:transform .25s; height:100dvh}
+    body.nav-open .rail{transform:none}
+    body.nav-open::after{content:""; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:30}
+    .menu-btn{display:inline-flex; position:fixed; top:14px; right:14px; z-index:50; background:var(--card2); border:1px solid var(--line2); color:var(--ink); font-family:var(--mono); font-size:12px; padding:9px 13px; border-radius:9px; gap:7px; align-items:center; cursor:pointer}
+    .g2,.g3,.g4{grid-template-columns:1fr}
+    .sec-head .sub{display:none}
+    .masthead,.wrap,footer{padding-left:6vw; padding-right:6vw}
+  }
+</style>
+</head>
+<body>
+<button class="menu-btn" id="menuBtn" aria-label="Toggle sections">☰ Sections</button>
+<div class="shell">
+
+  <!-- ══════════ RAIL ══════════ -->
+  <aside class="rail">
+    <div class="brand">
+      <div class="mark">
+        <svg class="glyph" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="15" stroke="#ff6a1a" stroke-width="1.3" opacity=".5"/>
+          <path d="M16 6c4 5 4 9 0 12-4-3-4-7 0-12z" fill="#ff6a1a"/>
+          <path d="M16 11c2.4 3 2.4 5.4 0 8.4-2.4-3-2.4-5.4 0-8.4z" fill="#f2a93b"/>
+          <circle cx="16" cy="23" r="1.6" fill="#f4ede4"/>
+        </svg>
+        <h1>AGNI&nbsp;Brain</h1>
+      </div>
+      <div class="tag">Single source of truth</div>
+    </div>
+    <div class="search">
+      <input id="q" type="search" placeholder="Search the brain…" autocomplete="off" spellcheck="false" />
+      <div class="hint">Press / to focus · Esc to clear</div>
+    </div>
+    <nav id="nav"></nav>
+  </aside>
+
+  <!-- ══════════ MAIN ══════════ -->
+  <main>
+    <header class="masthead">
+      <canvas id="wave" aria-hidden="true"></canvas>
+      <div class="status"><span class="dot"></span>Concept &amp; research stage — not for sale</div>
+      <h2>Everything AGNI knows, in <em>one place</em>.</h2>
+      <p>A wearable patch that listens to the gut, classifies what it hears, and translates it into one daily reading delivered over WhatsApp. This is the consolidated record — the science, the hardware, the score, the clinical calls, the market, and every asset built so far.</p>
+      <div class="meta-row">
+        <span>Owner&nbsp; <b>Nevil Parekh</b></span>
+        <span>Studio&nbsp; <b>Mastical / Escalara</b></span>
+        <span>CTO&nbsp; <b>Riddhesh Chaudhary</b></span>
+        <span>Clinical review&nbsp; <b>Riya</b></span>
+        <span>Latest&nbsp; <b>Build guide Rev 1.1</b></span>
+      </div>
+    </header>
+
+    <div class="wrap">
+
+      <!-- 1 · SNAPSHOT -->
+      <section id="snapshot" data-title="Snapshot">
+        <div class="sec-head"><span class="num">01</span><h3>Snapshot</h3><span class="sub">What AGNI is, in one screen.</span></div>
+        <div class="grid g3">
+          <div class="card tint">
+            <div class="lbl">The one-liner</div>
+            <p>India's first continuous <b style="color:var(--ink)">gut-acoustic monitoring patch</b>. It hears borborygmi (bowel sounds), maps them to digestive states, and tells you what your gut has been trying to say.</p>
+          </div>
+          <div class="card tint">
+            <div class="lbl">The wedge vs SUNA</div>
+            <p>Same core idea as SUNA (UK). AGNI wins India on four layers SUNA can't copy fast: <b style="color:var(--ink)">Indian-food AI model, WhatsApp-first delivery, Ayurvedic framing, and an India-priced device.</b></p>
+          </div>
+          <div class="card tint">
+            <div class="lbl">The honest truth</div>
+            <p>The hardware works in principle. The make-or-break is <b style="color:var(--ink)">acoustic coupling to skin</b> — not the chip. And the Agni-state mapping is a hypothesis to be proven, not a fact.</p>
+          </div>
+        </div>
+        <div class="grid g4" style="margin-top:14px">
+          <div class="card"><div class="lbl">Form factor</div><div class="big">40mm</div><p style="margin-top:6px">abdominal patch, edge-compute, BLE</p></div>
+          <div class="card"><div class="lbl">PoC build cost</div><div class="big">₹4–11k</div><p style="margin-top:6px">solo-builder, India-sourced</p></div>
+          <div class="card"><div class="lbl">Delivery</div><div class="big">1<small>/day</small></div><p style="margin-top:6px">one JSON packet → WhatsApp</p></div>
+          <div class="card"><div class="lbl">Reading</div><div class="big">0–100</div><p style="margin-top:6px">the AGNI Score → 4 states</p></div>
+        </div>
+      </section>
+
+      <!-- 2 · THE SCIENCE -->
+      <section id="science" data-title="The science">
+        <div class="sec-head"><span class="num">02</span><h3>The science</h3><span class="sub">10 peer-reviewed papers across three pillars, plus the physics that sets every spec.</span></div>
+
+        <div class="grid g3" style="margin-bottom:18px">
+          <div class="card">
+            <div class="lbl">Physics that fixes the specs</div>
+            <ul class="tight">
+              <li>Bowel sounds live at <b style="color:var(--ink)">100–500 Hz</b> dominant, rarely &gt;1000 Hz</li>
+              <li>Loudness ~<b style="color:var(--ink)">60 dB SPL</b> — quiet, easily buried</li>
+              <li>Event duration <b style="color:var(--ink)">10–4000 ms</b></li>
+              <li>Resting rate ~<b style="color:var(--ink)">5–34 events/min</b></li>
+            </ul>
+            <p style="margin-top:10px; font-size:12px; color:var(--muted)">This single spec set drives sampling rate, filter band, mic choice and gating.</p>
+          </div>
+          <div class="card">
+            <div class="lbl">Comparable devices (proof it's real)</div>
+            <ul class="tight">
+              <li><b style="color:var(--ink)">AbStats / AGIS</b> — FDA-cleared for ileus monitoring (prospective ileus sensitivity ~63%)</li>
+              <li><b style="color:var(--ink)">Marshall IBS belt</b> — ~90% sensitivity in proof-of-concept</li>
+              <li><b style="color:var(--ink)">SonicGuard</b> (Fraunhofer) — long-term abdominal recording</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="lbl">Three strategic gaps = the moat</div>
+            <ul class="tight">
+              <li>No unified <b style="color:var(--ink)">hardware + Ayurvedic-scoring</b> consumer product exists</li>
+              <li>No <b style="color:var(--ink)">India-specific gut phenotype</b> bowel-sound dataset</li>
+              <li>Consumer-scale <b style="color:var(--ink)">patch form factor</b> is unvalidated</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="grid g3">
+          <div>
+            <span class="pill">Pillar 1 · Acoustic sensing hardware</span>
+            <div class="paper"><div class="t">Flexible wearable mechano-acoustic sensors</div><div class="src">RSC Nanoscale, 2025 · d4nr05145a</div><div class="why">Direct blueprint for the patch architecture (piezo/capacitive/triboelectric).</div></div>
+            <div class="paper"><div class="t">PMUT-based high-sensitivity bowel-sound monitor</div><div class="src">MDPI Micromachines, 2022 · PMC9787765</div><div class="why">MEMS approach with real specs; noise rejection over plain mics.</div></div>
+            <div class="paper"><div class="t">Emerging wearable acoustic sensing</div><div class="src">Advanced Science, 2025 · advs.202408653</div><div class="why">Multi-body heart/lung/bowel sensing from one wireless node.</div></div>
+          </div>
+          <div>
+            <span class="pill">Pillar 2 · ML on bowel sounds</span>
+            <div class="paper"><div class="t">Multiscale bowel-sound spotting — EffUNet</div><div class="src">JMIR AI, 2024 · PMC11269970</div><div class="why">EfficientNet-B2 spectrogram detection on imbalanced wearable data — closest to the edge pipeline.</div></div>
+            <div class="paper"><div class="t">Self-attention + self-supervised (Branchformer)</div><div class="src">PLOS ONE, 2024 · pone.0311503</div><div class="why">Strong recognition under data-limited conditions — fits the early-dataset problem.</div></div>
+            <div class="paper"><div class="t">AI gut diagnostics (IBD vs healthy)</div><div class="src">2024–25 · acoustic classification</div><div class="why">Evidence bowel-sound features separate clinical states.</div></div>
+          </div>
+          <div>
+            <span class="pill">Pillar 3 · Ayurveda × microbiome</span>
+            <div class="paper"><div class="t">Agni states ↔ microbiome composition</div><div class="src">peer-reviewed · framing only</div><div class="why">Maps Sama/Vishama/Tikshna/Manda &amp; Ama to dysbiosis. Used as motivation, <b>not</b> proof of an acoustic→Agni link.</div></div>
+            <div class="paper"><div class="t">SonicGuard multichannel sensor</div><div class="src">Sensors, 2024 · 24:1843</div><div class="why">Backs the coupling stack &amp; sampling/decimation choices vs Littmann benchmarks.</div></div>
+            <div class="note" style="margin-top:14px"><span class="ic">!</span><p><b>Honest line.</b> The literature proves bowel sounds are real, quantifiable and ML-classifiable. It does <b>not</b> yet prove they map onto Ayurvedic digestive-fire states. That gap is AGNI's bet — and its risk.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3 · HARDWARE -->
+      <section id="hardware" data-title="Hardware & BOM">
+        <div class="sec-head"><span class="num">03</span><h3>Hardware &amp; BOM</h3><span class="sub">Solo-builder PoC, everything sourceable in India.</span></div>
+        <div class="grid g4" style="margin-bottom:16px">
+          <div class="card tint"><div class="lbl">MCU + mic + IMU</div><h4>Seeed XIAO nRF52840 Sense</h4><p>All-in-one core board. On-board IMU for motion gating.</p></div>
+          <div class="card tint"><div class="lbl">Acoustic</div><h4>INMP441 I2S MEMS mic</h4><p>Coupled through a stethoscope diaphragm. 3.3V only — 5V destroys it.</p></div>
+          <div class="card tint"><div class="lbl">Temperature</div><h4>MAX30205</h4><p>Clinical ±0.1°C over I2C. Abdominal skin temp vs baseline.</p></div>
+          <div class="card tint"><div class="lbl">Motion gate</div><h4>LSM6DS3 (on XIAO)</h4><p>Pauses the acoustic pipeline above 200&nbsp;mg of movement.</p></div>
+        </div>
+        <div class="note"><span class="ic">×</span><p><b>Dropped from v1:</b> the AD5941 EDA / sweat-conductivity front-end. Defer it — no substitute needed for the proof-of-concept. (This is why the score formula no longer carries a sweat term — see §05.)</p></div>
+
+        <div class="scroll" style="margin-top:14px">
+          <table class="tbl">
+            <thead><tr><th>Item</th><th>Indian seller</th><th>Approx ₹</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>XIAO nRF52840 Sense</td><td>Robocraze / Robu.in</td><td class="mono">1,719–2,087</td><td>Core board, in stock</td></tr>
+              <tr><td>INMP441 I2S mic</td><td>Robokits / Amazon.in</td><td class="mono">182–326</td><td>Best acoustic value</td></tr>
+              <tr><td>Stethoscope / diaphragm</td><td>Pharmacy (generic)</td><td class="mono">300–800</td><td>Littmann Classic III ₹6–9.5k if splurging</td></tr>
+              <tr><td>MAX30205 temp</td><td>Amazon.in / Robu.in</td><td class="mono">300–500</td><td>I2C, clinical accuracy</td></tr>
+              <tr><td>Piezo disc (optional)</td><td>Sparkler Ceramics, Pune</td><td class="mono">20–60</td><td>Contact-mic experiment; needs hi-Z preamp</td></tr>
+              <tr><td>Micropore tape</td><td>Apollo Pharmacy</td><td class="mono">35–560</td><td>Skin adhesion</td></tr>
+              <tr><td>Tegaderm film</td><td>Healthklin</td><td class="mono">95/pc</td><td>Sealed wear</td></tr>
+              <tr><td>LiPo + JST + charger</td><td>Robu.in / Robocraze</td><td class="mono">250–500</td><td>XIAO has onboard charging</td></tr>
+              <tr><td>Jumpers, breadboard, gasket</td><td>Robu.in</td><td class="mono">300–500</td><td>Consumables</td></tr>
+              <tr><td><b style="color:var(--ink)">Lean total (generic)</b></td><td></td><td class="mono">≈4,000–6,000</td><td></td></tr>
+              <tr><td><b style="color:var(--ink)">With Littmann coupler</b></td><td></td><td class="mono">≈9,000–11,000</td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 4 · SIGNAL PIPELINE -->
+      <section id="pipeline" data-title="Signal pipeline">
+        <div class="sec-head"><span class="num">04</span><h3>Signal pipeline</h3><span class="sub">From skin vibration to four labelled classes — all on-device.</span></div>
+        <div class="flow" style="margin-bottom:18px">
+          <div class="step"><div class="k">CAPTURE</div><h5>I2S @ 16 kHz</h5><p>Mic in diaphragm, pressed &amp; sealed to upper-right abdomen.</p></div>
+          <div class="step"><div class="k">GATE</div><h5>IMU motion gate</h5><p>&gt;200 mg pauses pipeline; 3s stillness resumes.</p></div>
+          <div class="step"><div class="k">FILTER</div><h5>Butterworth BP</h5><p>4th-order, 80–1000 Hz band.</p></div>
+          <div class="step"><div class="k">DETECT</div><h5>Short-time energy</h5><p>Adaptive threshold, 10–4000 ms duration gating.</p></div>
+          <div class="step"><div class="k">CLASSIFY</div><h5>1D-CNN (Edge Impulse)</h5><p>MFCC → 4-class. Target ≥80–90% val accuracy.</p></div>
+        </div>
+
+        <div class="grid g2">
+          <div class="scroll">
+            <table class="tbl">
+              <thead><tr><th>Class</th><th>Sounds like</th><th>Meaning</th><th>Share</th></tr></thead>
+              <tbody>
+                <tr><td class="mono">SB</td><td>Short click, 10–30 ms</td><td>Normal contraction / fluid splash</td><td class="mono">~88%</td></tr>
+                <tr><td class="mono">MB</td><td>Click group, 40–1500 ms</td><td>Active fluid movement</td><td class="mono">~8%</td></tr>
+                <tr><td class="mono">CRS</td><td>Rumble, 200–4000 ms</td><td>Gas / variable-diameter passage</td><td class="mono">~3.5%</td></tr>
+                <tr><td class="mono">HS</td><td>Whistling tone, 50–1500 ms</td><td>Rare — possible stenosis</td><td class="mono">~1%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card">
+            <div class="lbl">Toolchain (solo builder)</div>
+            <p style="font-family:var(--mono); font-size:12.5px; color:var(--ink); line-height:2">record → laptop<br><span style="color:var(--muted)">→</span> Audacity <span style="color:var(--muted)">(eyeball SNR)</span><br><span style="color:var(--muted)">→</span> Python · scipy · librosa <span style="color:var(--muted)">(DSP + rules)</span><br><span style="color:var(--muted)">→</span> Edge Impulse <span style="color:var(--muted)">(CNN + deploy)</span></p>
+            <p style="margin-top:11px; font-size:12.5px">Skip Zephyr RTOS until you need low-power production firmware. <b style="color:var(--ink)">Prove signal first; never start with on-device classification.</b> SB↔CRS must separate reliably before anything else.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5 · AGNI SCORE -->
+      <section id="score" data-title="AGNI Score">
+        <div class="sec-head"><span class="num">05</span><h3>The AGNI Score</h3><span class="sub">Computed every 24h, relative to your own baseline.</span></div>
+        <div class="formula" style="margin-bottom:16px">
+AGNI = <span class="w">0.40</span> · (Bowel-sound rate vs <span class="c">your</span> baseline)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="w">0.25</span> · (1 − Pattern abnormality)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="w">0.15</span> · (Postprandial response)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="w">0.10</span> · (Temperature deviation)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="w">0.10</span> · (User symptom score)<br>
+<span class="c">// → 100 × Σ wᵢ · clip(normalise(featureᵢ)),  Σ wᵢ = 1.00</span>
+        </div>
+        <div class="grid g3">
+          <div class="card">
+            <div class="lbl">Design intent</div>
+            <p>Sound carries the most weight; the body's slower signals refine it. Weights are a <b style="color:var(--ink)">transparent product decision</b>, not a fitted result — adjustable as validation data arrives.</p>
+          </div>
+          <div class="card">
+            <div class="lbl">Normalisation</div>
+            <p><span style="font-family:var(--mono);font-size:12px">normalise()</span> is a per-user rolling z-score mapped to [0,1]. <span style="font-family:var(--mono);font-size:12px">clip()</span> bounds motion/noise outliers. Every sub-score runs against your <b style="color:var(--ink)">personal</b>, not a population, baseline.</p>
+          </div>
+          <div class="card">
+            <div class="lbl">Evolution note</div>
+            <p>The earlier formula carried a <b style="color:var(--ink)">sweat-conductivity (EDA)</b> term at 0.10. With the AD5941 dropped from v1, that weight moved to the <b style="color:var(--ink)">user symptom score</b>. Postprandial response replaced the older thermal-only refinement.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6 · FOUR STATES -->
+      <section id="states" data-title="The four states">
+        <div class="sec-head"><span class="num">06</span><h3>The four states</h3><span class="sub">Charaka Samhita's Agni states as a falsifiable acoustic hypothesis — each with a direct WhatsApp action.</span></div>
+        <div class="grid g4">
+          <div class="state" style="--c:var(--sama)">
+            <div class="nm">Sama</div><div class="ti">Balanced</div>
+            <div class="band">Score 80–100</div>
+            <div class="row"><b>Acoustic</b>Moderate rate, low interval variance, balanced spectrum</div>
+            <div class="row"><b>Reads as</b>Light, regular, steady</div>
+            <div class="row"><b>WhatsApp action</b>Gut is steady. Maintain current meals &amp; sleep.</div>
+          </div>
+          <div class="state" style="--c:var(--vishama)">
+            <div class="nm">Vishama</div><div class="ti">Irregular</div>
+            <div class="band">Score 60–79</div>
+            <div class="row"><b>Acoustic</b>High interval variance, bursty MB clusters</div>
+            <div class="row"><b>Reads as</b>Bloating, gas, unpredictable</div>
+            <div class="row"><b>WhatsApp action</b>Regularise meal timing; lighter dinner tonight.</div>
+          </div>
+          <div class="state" style="--c:var(--tikshna)">
+            <div class="nm">Tikshna</div><div class="ti">Sharp</div>
+            <div class="band">Score 40–59</div>
+            <div class="row"><b>Acoustic</b>High rate, high amplitude, high spectral centroid</div>
+            <div class="row"><b>Reads as</b>Acidity, urgency, hunger pangs</div>
+            <div class="row"><b>WhatsApp action</b>Cooling, non-acidic foods; avoid long fasting gaps.</div>
+          </div>
+          <div class="state" style="--c:var(--manda)">
+            <div class="nm">Manda</div><div class="ti">Dull</div>
+            <div class="band">Score 0–39</div>
+            <div class="row"><b>Acoustic</b>Low rate, long silences, low spectral centroid</div>
+            <div class="row"><b>Reads as</b>Heaviness, sluggish, constipation</div>
+            <div class="row"><b>WhatsApp action</b>Movement + warm fluids; flag if it persists 3 days.</div>
+          </div>
+        </div>
+        <div class="note" style="margin-top:16px"><span class="ic">⤷</span><p><b>If the mapping fails:</b> the Agni layer becomes a friendly consumer skin over the validated score, and the evidential claim narrows to what is provable — that the score tracks the wearer's own symptom diary over time. The hardware, score and WhatsApp loop are unaffected.</p></div>
+      </section>
+
+      <!-- 7 · CLINICAL DECISIONS -->
+      <section id="clinical" data-title="Clinical decisions (Rev 1.1)">
+        <div class="sec-head"><span class="num">07</span><h3>Clinical decisions</h3><span class="sub">Riya's review → four resolutions, locked in Rev 1.1.</span></div>
+        <div class="grid g2">
+          <div class="card"><div class="lbl">01 · Battery &amp; BLE, honestly</div><p>Edge-compute only. <b style="color:var(--ink)">One JSON packet per day</b> over BLE — no raw audio leaves the patch. Honest PoC battery is <b style="color:var(--ink)">~3 days</b> duty-cycled on 110 mAh, not 7.</p></div>
+          <div class="card"><div class="lbl">02 · Motion gating, step by step</div><p>LSM6DS3 acceleration gate: <b style="color:var(--ink)">&gt;200 mg pauses</b> the acoustic pipeline; a <b style="color:var(--ink)">3-second stillness window</b> resumes it. Clothing-rub &amp; speech share the 100–500 Hz band — gating is non-negotiable.</p></div>
+          <div class="card"><div class="lbl">03 · Personal baselines</div><p><b style="color:var(--ink)">Days 1–3 silent calibration</b> on first wear. All sub-scores run relative to the personal baseline, with a <b style="color:var(--ink)">rolling 7-day recalibration.</b></p></div>
+          <div class="card"><div class="lbl">04 · Score → action map</div><p>Every WhatsApp delivery carries a direct behaviour instruction for the day's state (Sama / Vishama / Tikshna / Manda) — a reading is never delivered without a next step. See §06.</p></div>
+        </div>
+      </section>
+
+      <!-- 8 · RISKS -->
+      <section id="risks" data-title="Risks & honest notes">
+        <div class="sec-head"><span class="num">08</span><h3>Risks &amp; honest notes</h3><span class="sub">What kills this if you get it wrong.</span></div>
+        <div class="note"><span class="ic">1</span><p><b>Acoustic coupling is the bottleneck.</b> A bare MEMS mic on skin barely registers ~60 dB bowel sounds against body + ambient noise. The diaphragm coupling + sealed gasket + firm adhesion is where most solo builders fail — expect most debug time here.</p></div>
+        <div class="note"><span class="ic">2</span><p><b>Real-world prediction is moderate, not magical.</b> Even AGIS dropped to ~63% prospective ileus sensitivity. Set expectations: this is a wellness trend tool, not a diagnostic oracle.</p></div>
+        <div class="note"><span class="ic">3</span><p><b>The Agni mapping is an unvalidated hypothesis.</b> Treat it as falsifiable (§06), with a fallback that survives a negative result.</p></div>
+        <div class="note"><span class="ic">4</span><p><b>Don't build the hardware company.</b> The winning founders here are software-first. The moat is the Indian food model, the practitioner network and WhatsApp distribution — not the patch design. Source the device from an ODM (Pune / Hyderabad) at scale.</p></div>
+      </section>
+
+      <!-- 9 · REGULATORY -->
+      <section id="regulatory" data-title="Regulatory">
+        <div class="sec-head"><span class="num">09</span><h3>Regulatory</h3><span class="sub">Stay in the wellness lane.</span></div>
+        <div class="grid g3">
+          <div class="card"><div class="lbl">Positioning</div><p><b style="color:var(--ink)">Wellness / experimental device.</b> Does not diagnose, treat or cure. Keep all claims to trend &amp; lifestyle — never "diagnosis."</p></div>
+          <div class="card"><div class="lbl">CDSCO</div><p>The wellness-vs-medical-device line under CDSCO is the boundary to respect. Crossing into diagnostic claims pulls you into medical-device regulation.</p></div>
+          <div class="card"><div class="lbl">DPDP Act 2023</div><p>Gut/health data is sensitive personal data. Edge-compute (no raw audio leaving the patch) is both a privacy feature and a compliance asset.</p></div>
+        </div>
+      </section>
+
+      <!-- 10 · MARKET & GTM -->
+      <section id="market" data-title="Market & GTM">
+        <div class="sec-head"><span class="num">10</span><h3>Market &amp; GTM</h3><span class="sub">Why India, why now, why WhatsApp.</span></div>
+        <div class="grid g3" style="margin-bottom:14px">
+          <div class="card tint"><div class="lbl">The gap</div><div class="big">220M+</div><p style="margin-top:7px">Indians with IBS, acid reflux &amp; chronic digestive issues — managing it with antacids and guesswork.</p></div>
+          <div class="card tint"><div class="lbl">The window</div><div class="big">~18mo</div><p style="margin-top:7px">SUNA ships UK/US ~Q1/Q2 2027 with no India plans. Time to own the market before they localise.</p></div>
+          <div class="card tint"><div class="lbl">The why-gut</div><p>The gut runs ~70% of the immune system and produces ~90% of serotonin — and no wearable tracks it. Smartwatch for the heart; nothing for the gut.</p></div>
+        </div>
+        <div class="grid g2">
+          <div class="card">
+            <div class="lbl">Four-layer moat (build what SUNA can't copy)</div>
+            <ul class="tight">
+              <li><b style="color:var(--ink)">Indian-food AI model</b> — gut response to Indian diets &amp; stress</li>
+              <li><b style="color:var(--ink)">WhatsApp-first delivery</b> — zero-app, native to India</li>
+              <li><b style="color:var(--ink)">Ayurvedic framing</b> — Agni = digestive fire, culturally resonant</li>
+              <li><b style="color:var(--ink)">Practitioner network</b> — gastroenterologists as a distribution channel</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="lbl">Validation sprint (the real next move)</div>
+            <ul class="tight">
+              <li>Message 10 people with IBS / chronic gut issues; ask for 20 min each</li>
+              <li>Decide: standalone company or Mastical studio build (sets equity &amp; narrative)</li>
+              <li>Approach SAMEER Mumbai &amp; CMTI Bangalore for hardware credibility</li>
+            </ul>
+            <p style="margin-top:10px; font-size:12px; color:var(--muted)">Note: ₹3,999 pricing was the original consumer target. It's pulled from public materials while AGNI is in research phase — CTAs are "Join the research cohort," not "Buy."</p></div>
+        </div>
+      </section>
+
+      <!-- 11 · PARTNERSHIPS -->
+      <section id="partnerships" data-title="Partnerships & outreach">
+        <div class="sec-head"><span class="num">11</span><h3>Partnerships &amp; outreach</h3><span class="sub">Who to approach — and who not to.</span></div>
+        <div class="scroll">
+          <table class="tbl">
+            <thead><tr><th>Target</th><th>Type</th><th>Why / status</th></tr></thead>
+            <tbody>
+              <tr><td>Ademen Limited (UK)</td><td class="mono">OEM / licensing</td><td>Acoustic monitoring + Birmingham collab. India white-label angle, royalty on a 220M market.</td></tr>
+              <tr><td>2M Engineering (NL)</td><td class="mono">OEM module</td><td>Modular wearable patch platform with sound-sensor add-on. Explicit OEM enquiry form.</td></tr>
+              <tr><td>Luke Coutinho</td><td class="mono">Advisor / brand</td><td>Indian wellness entrepreneur — advisor + brand-partnership target.</td></tr>
+              <tr><td>Biotech sensor expert</td><td class="mono">Advisor</td><td>LinkedIn outreach drafted (advice-seeking, non-pitch). Ask: review the INMP441-in-diaphragm coupling stack.</td></tr>
+              <tr><td>SAMEER Mumbai · CMTI Bangalore</td><td class="mono">R&amp;D / credibility</td><td>Govt biosensor labs that advise hardware startups — free credibility + research partnership.</td></tr>
+              <tr><td>SUNA (UK)</td><td class="mono" style="color:var(--tikshna)">DO NOT</td><td>Direct competitor on the same product. Approaching at this stage is a mistake.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 12 · BUILD PLAN -->
+      <section id="buildplan" data-title="Build plan">
+        <div class="sec-head"><span class="num">12</span><h3>Build plan</h3><span class="sub">Four gated steps — pass before you proceed.</span></div>
+        <div class="grid g2">
+          <div class="card"><div class="lbl">Step 1 · Capture &amp; validate</div><p>INMP441 → XIAO over I2S, stream to laptop, save WAV. Couple diaphragm to upper-right abdomen, lie supine.</p><p style="margin-top:8px"><b style="color:var(--sama)">PASS:</b> you can see &amp; hear distinct bowel bursts above noise floor (SNR visibly &gt;2–3×) in Audacity after an 80–1000 Hz bandpass. Fail → fix coupling before anything else.</p></div>
+          <div class="card"><div class="lbl">Step 2 · Detect &amp; classify</div><p>Python: bandpass → short-time energy → adaptive threshold → 10–4000 ms gating → events/min + rule-based SB/MB/CRS/HS. Then Edge Impulse: MFCC (13) + 1D-CNN.</p><p style="margin-top:8px"><b style="color:var(--sama)">PASS:</b> events/min in sane range (5–34 resting); classifier separates SB vs CRS reliably; ≥80–90% val accuracy.</p></div>
+          <div class="card"><div class="lbl">Step 3 · Temp + score</div><p>Add MAX30205 on I2C. Compute the five sub-scores; output AGNI 0–100 over BLE/serial.</p><p style="margin-top:8px"><b style="color:var(--sama)">PASS:</b> end-to-end score updates live and moves sensibly fasting vs after a meal.</p></div>
+          <div class="card"><div class="lbl">Step 4 · Wear test</div><p>Mount XIAO + diaphragm + MAX30205 + LiPo in a small enclosure; Tegaderm to skin. Record ~2h fasting + 40–90min postprandial; log symptoms.</p><p style="margin-top:8px"><b style="color:var(--sama)">PASS:</b> stable adhesion, usable SNR seated, AGNI trend reproducible across 2–3 days on yourself.</p></div>
+        </div>
+      </section>
+
+      <!-- 13 · ASSET INDEX -->
+      <section id="assets" data-title="Asset index">
+        <div class="sec-head"><span class="num">13</span><h3>Asset index</h3><span class="sub">Everything built so far — click through to the source chat.</span></div>
+        <div class="grid" style="gap:9px">
+          <a class="asset" href="https://claude.ai/chat/eb839a44-807d-4f5a-a068-e9b61b995c30" target="_blank" rel="noopener"><span class="ty">Research</span><span><span class="nm">Research map — 10 papers, 3 pillars</span> <span class="ds">· hardware, ML, Ayurveda×microbiome with DOIs</span></span><span class="arw">↗</span></a>
+          <a class="asset" href="https://claude.ai/chat/52983302-9c14-41a7-a2b0-d62873bf9e0b" target="_blank" rel="noopener"><span class="ty">Brief</span><span><span class="nm">Venture studio brief</span> <span class="ds">· HTML + .docx · thesis, market, GTM, roadmap, funding, risk</span></span><span class="arw">↗</span></a>
+          <a class="asset" href="https://claude.ai/chat/52983302-9c14-41a7-a2b0-d62873bf9e0b" target="_blank" rel="noopener"><span class="ty">Spec</span><span><span class="nm">Hardware prototype spec (Rev 1.0)</span> <span class="ds">· PoC/EVT/DVT, BOM, PCB, power, firmware, regulatory</span></span><span class="arw">↗</span></a>
+          <a class="asset" href="https://claude.ai/chat/d0dbade6-19b9-4318-9843-61fd8b211cf6" target="_blank" rel="noopener"><span class="ty">Doc</span><span><span class="nm">Full technical build spec (.docx)</span> <span class="ds">· 14-part BOM, Zephyr threads, two-tier ML, GO/KILL gates</span></span><span class="arw">↗</span></a>
+          <a class="asset" href="https://claude.ai/chat/9ddb48d6-63b8-48b4-8475-7c0a0a080046" target="_blank" rel="noopener"><span class="ty">Guide</span><span><span class="nm">Godmode build guide (Rev 1.1)</span> <span class="ds">· India sourcing, DSP, score, gated steps — latest</span></span><span class="arw">↗</span></a>
+          <a class="asset" href="https://claude.ai/chat/9ddb48d6-63b8-48b4-8475-7c0a0a080046" target="_blank" rel="noopener"><span class="ty">Doc</span><span><span class="nm">Scientific design doc (Rev 2.0) + product note</span> <span class="ds">· score derivation, Agni hypothesis table, glossary</span></span><span class="arw">↗</span></a>
+          <a class="asset" href="https://claude.ai/chat/9ddb48d6-63b8-48b4-8475-7c0a0a080046" target="_blank" rel="noopener"><span class="ty">Site</span><span><span class="nm">AGNI Health landing page</span> <span class="ds">· live acoustic waveform, 3D patch, score dial, WhatsApp loop</span></span><span class="arw">↗</span></a>
+          <a class="asset" href="https://claude.ai/chat/e5288252-5066-405a-8880-ebb7d4edc2d9" target="_blank" rel="noopener"><span class="ty">Build</span><span><span class="nm">Landing page repo (agni-health.zip)</span> <span class="ds">· JSX + standalone HTML, deploy-ready, refined 3D model</span></span><span class="arw">↗</span></a>
+          <a class="asset" href="https://claude.ai/chat/d0dbade6-19b9-4318-9843-61fd8b211cf6" target="_blank" rel="noopener"><span class="ty">3D</span><span><span class="nm">Exploded-assembly viewer</span> <span class="ds">· scrub assembled↔exploded, 14 parts, cross-section guide</span></span><span class="arw">↗</span></a>
+          <a class="asset" href="https://claude.ai/chat/9ddb48d6-63b8-48b4-8475-7c0a0a080046" target="_blank" rel="noopener"><span class="ty">Diagram</span><span><span class="nm">Seven-layer system flow (SVG)</span> <span class="ds">· skin → WhatsApp user action</span></span><span class="arw">↗</span></a>
+          <a class="asset" href="https://claude.ai/chat/9ddb48d6-63b8-48b4-8475-7c0a0a080046" target="_blank" rel="noopener"><span class="ty">Outreach</span><span><span class="nm">LinkedIn advisor posts + reply to Riya</span> <span class="ds">· biotech sensor outreach, clinical review resolutions</span></span><span class="arw">↗</span></a>
+          <a class="asset" href="https://claude.ai/chat/52983302-9c14-41a7-a2b0-d62873bf9e0b" target="_blank" rel="noopener"><span class="ty">Outreach</span><span><span class="nm">OEM emails — Ademen, 2M Engineering</span> <span class="ds">· India licensing / OEM module partnership</span></span><span class="arw">↗</span></a>
+        </div>
+      </section>
+
+      <!-- 14 · OPEN QUESTIONS -->
+      <section id="open" data-title="Open questions & next moves">
+        <div class="sec-head"><span class="num">14</span><h3>Open questions &amp; next moves</h3><span class="sub">What's unresolved, and what to do this week.</span></div>
+        <div class="grid g2">
+          <div class="card">
+            <div class="lbl">Open questions</div>
+            <ul class="check">
+              <li><span class="box">?</span>Standalone company or Mastical studio build — equity &amp; fundraising narrative hinge on this.</li>
+              <li><span class="box">?</span>Does the acoustic feature space actually separate into the four Agni regions? (The core bet.)</li>
+              <li><span class="box">?</span>Coupling stack that survives daily wear &amp; movement — diaphragm + gasket + adhesion still unproven on-body.</li>
+              <li><span class="box">?</span>Build vs source the device — when to hand off to an ODM.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="lbl">Next moves</div>
+            <ul class="check">
+              <li><span class="box">▸</span>Run the 10-person validation sprint (IBS / gut issues).</li>
+              <li><span class="box">▸</span>Execute Step 1 of the build plan — prove signal in Audacity.</li>
+              <li><span class="box">▸</span>Send the biotech-sensor advisor outreach; book one coupling-review call.</li>
+              <li><span class="box">▸</span>Email SAMEER Mumbai &amp; CMTI Bangalore.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="noresults" id="noresults">No matches in the brain for that term.</div>
+    </div>
+
+    <footer>
+      AGNI Brain · consolidated from research, hardware, scoring, clinical &amp; market work · concept &amp; research stage<br>
+      AGNI is a wellness device and does not diagnose, treat or cure any condition. All component selections are indicative and subject to validation.
+    </footer>
+  </main>
+</div>
+
+<script>
+(function(){
+  var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-title]'));
+  var nav = document.getElementById('nav');
+
+  // build nav
+  sections.forEach(function(s,i){
+    var a = document.createElement('a');
+    a.href = '#'+s.id;
+    a.innerHTML = '<span class="n">'+String(i+1).padStart(2,'0')+'</span><span>'+s.dataset.title+'</span>';
+    a.dataset.id = s.id;
+    nav.appendChild(a);
+  });
+  var navLinks = Array.prototype.slice.call(nav.querySelectorAll('a'));
+
+  // scrollspy
+  var spy = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        navLinks.forEach(function(l){ l.classList.toggle('active', l.dataset.id===e.target.id); });
+      }
+    });
+  },{rootMargin:'-20% 0px -70% 0px'});
+  sections.forEach(function(s){ spy.observe(s); });
+
+  // mobile nav
+  var menuBtn = document.getElementById('menuBtn');
+  menuBtn.addEventListener('click', function(){ document.body.classList.toggle('nav-open'); });
+  nav.addEventListener('click', function(e){ if(e.target.closest('a')) document.body.classList.remove('nav-open'); });
+  document.addEventListener('click', function(e){
+    if(document.body.classList.contains('nav-open') && !e.target.closest('.rail') && !e.target.closest('#menuBtn')) document.body.classList.remove('nav-open');
+  });
+
+  // search
+  var q = document.getElementById('q');
+  var noresults = document.getElementById('noresults');
+  function unit(el){ return el; }
+  var units = Array.prototype.slice.call(document.querySelectorAll('.card, .paper, .asset, .state, .note, .tbl tbody tr'));
+  function run(term){
+    term = term.trim().toLowerCase();
+    if(!term){
+      document.body.classList.remove('searching');
+      units.forEach(function(u){ u.classList.remove('hidden'); });
+      sections.forEach(function(s){ s.classList.remove('hidden'); });
+      noresults.style.display='none';
+      return;
+    }
+    document.body.classList.add('searching');
+    var anyGlobal=false;
+    sections.forEach(function(s){
+      var localUnits = Array.prototype.slice.call(s.querySelectorAll('.card, .paper, .asset, .state, .note, .tbl tbody tr'));
+      var titleHit = s.dataset.title.toLowerCase().indexOf(term)>-1;
+      var any=false;
+      localUnits.forEach(function(u){
+        var hit = titleHit || u.textContent.toLowerCase().indexOf(term)>-1;
+        u.classList.toggle('hidden', !hit);
+        if(hit) any=true;
+      });
+      // sections with no card-units (rare) fall back to whole-text match
+      if(localUnits.length===0){ any = s.textContent.toLowerCase().indexOf(term)>-1; }
+      s.classList.toggle('hidden', !any && !titleHit);
+      if(any||titleHit) anyGlobal=true;
+    });
+    noresults.style.display = anyGlobal ? 'none' : 'block';
+  }
+  q.addEventListener('input', function(){ run(q.value); });
+
+  // keyboard: "/" focus, Esc clear
+  document.addEventListener('keydown', function(e){
+    if(e.key==='/' && document.activeElement!==q){ e.preventDefault(); q.focus(); }
+    else if(e.key==='Escape' && document.activeElement===q){ q.value=''; run(''); q.blur(); }
+  });
+
+  // ambient waveform signature
+  var canvas = document.getElementById('wave');
+  var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var ctx = canvas.getContext('2d');
+  function size(){ canvas.width = canvas.offsetWidth*devicePixelRatio; canvas.height = canvas.offsetHeight*devicePixelRatio; }
+  size(); window.addEventListener('resize', size);
+  var t=0;
+  function draw(){
+    var w=canvas.width, h=canvas.height;
+    ctx.clearRect(0,0,w,h);
+    ctx.lineWidth=1.4*devicePixelRatio;
+    var grad=ctx.createLinearGradient(0,0,w,0);
+    grad.addColorStop(0,'rgba(255,106,26,0)');
+    grad.addColorStop(.5,'rgba(255,106,26,.9)');
+    grad.addColorStop(1,'rgba(242,169,59,0)');
+    ctx.strokeStyle=grad;
+    ctx.beginPath();
+    for(var x=0;x<w;x++){
+      var px=x/w;
+      // gut-like: irregular bursts riding a slow base
+      var burst = Math.sin(px*40 + t*2)*Math.exp(-Math.pow((px*6%2)-1,2)*4);
+      var base = Math.sin(px*7 + t*0.6)*0.35;
+      var y = h/2 + (base+burst*0.9)*h*0.32;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    if(!reduce){ t+=0.018; requestAnimationFrame(draw); }
+  }
+  draw();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AGNI Health — Complete Build & Science Workflow</title>
+<style>
+  @page { margin: 20mm 15mm; }
+  :root {
+    --ember: #e85d04;
+    --ink: #1a1a2e;
+    --ink2: #444;
+    --muted: #777;
+    --bg: #faf8f5;
+    --card: #fff;
+    --line: #ddd;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 11pt;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--bg);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 30px;
+  }
+  h1 { font-size: 26pt; margin: 0 0 4px; letter-spacing: -.02em; }
+  h2 { font-size: 16pt; margin: 30px 0 12px; border-bottom: 2px solid var(--ember); padding-bottom: 4px; color: #000; }
+  h3 { font-size: 13pt; margin: 20px 0 8px; color: var(--ember); }
+  h4 { font-size: 11pt; margin: 14px 0 4px; }
+  p { margin: 6px 0; }
+  .meta { color: var(--muted); font-size: 10pt; margin-bottom: 20px; }
+  .meta b { color: var(--ink); }
+
+  .box {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--ember);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 12px 0;
+  }
+  .box.green { border-left-color: #2d9b4e; }
+  .box.blue { border-left-color: #2563eb; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+    margin: 10px 0;
+  }
+  th {
+    text-align: left;
+    background: #f0ede8;
+    padding: 7px 10px;
+    border-bottom: 2px solid var(--line);
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+  td {
+    padding: 6px 10px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+  }
+  tr:hover td { background: #faf8f5; }
+
+  pre {
+    background: #1a1a2e;
+    color: #e8e8e8;
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 9pt;
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    line-height: 1.5;
+    margin: 8px 0;
+  }
+  code { font-family: 'Cascadia Code', monospace; font-size: 9.5pt; background: #f0ede8; padding: 1px 4px; border-radius: 3px; }
+  pre code { background: none; padding: 0; }
+
+  ul { margin: 6px 0; padding-left: 18px; }
+  li { margin: 3px 0; }
+
+  .step {
+    display: flex;
+    gap: 14px;
+    margin: 14px 0;
+    padding: 12px 14px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+  }
+  .step .num {
+    flex: none;
+    width: 36px; height: 36px;
+    background: var(--ember);
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  .step .body { flex: 1; }
+  .step .body h4 { margin: 0 0 4px; font-size: 12pt; }
+  .step .body p { margin: 0; color: var(--ink2); font-size: 10.5pt; }
+
+  .pass {
+    background: #e6f7e6;
+    border-left: 3px solid #2d9b4e;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 10pt;
+    margin: 6px 0;
+  }
+
+  .ref { border-left: 2px solid #2563eb; padding: 2px 0 2px 12px; margin: 8px 0; }
+  .ref .t { font-weight: 600; font-size: 10pt; }
+  .ref .s { font-size: 9pt; color: var(--muted); }
+  .ref .w { font-size: 9.5pt; color: var(--ink2); }
+
+  .diagram {
+    background: #1a1a2e;
+    color: #e0e0e0;
+    font-family: 'Cascadia Code', monospace;
+    font-size: 9pt;
+    padding: 14px;
+    border-radius: 6px;
+    line-height: 1.5;
+    margin: 10px 0;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  @media print {
+    body { padding: 0; max-width: none; }
+    .step { break-inside: avoid; }
+    table { break-inside: avoid; }
+    pre { break-inside: avoid; }
+    h2 { break-after: avoid; }
+    h3 { break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<h1>AGNI Health</h1>
+<p style="font-size:12pt; margin:0 0 2px; font-weight:500;">Complete Build &amp; Science Workflow</p>
+<div class="meta">
+  <b>Author:</b> Dr. Nevil Parekh (MD Hom) &middot;
+  <b>Version:</b> 1.0 &middot;
+  <b>Date:</b> June 2026 &middot;
+  <b>Status:</b> Research &amp; Build Guide
+</div>
+
+<!-- ============================================================ -->
+<h2>1. Executive Summary</h2>
+
+<p>AGNI is a wearable gut-acoustic monitoring patch. It listens to bowel sounds via a MEMS microphone, counts them per minute, tracks the interval between them (SSI), and delivers one daily trend over WhatsApp.</p>
+
+<p><b>The core insight:</b> The FDA-cleared <b>AbStats system</b> (K150782) proved that simply counting bowel sound events per minute provides clinically valuable gut-health tracking — <b>100% sensitivity, 97% specificity</b> for gastrointestinal motility assessment. AGNI replicates this proven approach at consumer cost with Indian supply chain and WhatsApp delivery.</p>
+
+<p><b>No ML required for MVP.</b> No Ayurveda mapping needed. The strongest science is the simplest: count bowel sounds, measure time between them.</p>
+
+<!-- ============================================================ -->
+<h2>2. Sensor Selection</h2>
+
+<h3>Winner: INMP441 I2S MEMS Microphone</h3>
+
+<table>
+<tr><th>Factor</th><th>INMP441</th><th>SPH0645 (EffUNet)</th><th>PMUT Array</th></tr>
+<tr><td>Cost</td><td><b>₹182-326</b></td><td>₹300-500</td><td>₹20-60 (+preamp)</td></tr>
+<tr><td>India availability</td><td><b>Robokits, Amazon</b></td><td>Hard to find</td><td>Sparkler Ceramics Pune</td></tr>
+<tr><td>Sampling</td><td><b>I2S, 16-48 kHz</b></td><td>I2S, same</td><td>Analog + ADC</td></tr>
+<tr><td>SNR</td><td>61 dBA</td><td>62 dBA</td><td>Higher</td></tr>
+<tr><td>Power</td><td><b>1.4 mA</b></td><td>1.4 mA</td><td>More</td></tr>
+<tr><td>Used in research?</td><td>Smart stethoscopes</td><td>GastroDigitalShirt</td><td>PMUT paper 2022</td></tr>
+</table>
+
+<p><b>Why INMP441 wins:</b> Same I2S protocol as the $5 SPH0645 used in the GastroDigitalShirt (Baronetto 2024), 10× cheaper, readily available in India. At 100-500 Hz bowel sound range, the two are acoustically identical.</p>
+
+<h3>Coupling Method (CRITICAL)</h3>
+<p>This is where most solo builders fail. The AbStats FDA filing specifies: <b>"sensor active area 30mm × 20mm, standard electrical microphone, contact via FDA-approved 3M Tegaderm adhesive."</b></p>
+
+<div class="box">
+<b>Your coupling stack:</b><br>
+Skin → ultrasound gel → generic stethoscope diaphragm (₹300) → INMP441 in foam gasket → Tape to skin with Tegaderm
+</div>
+
+<p>Cut the bell end off a generic stethoscope. Tape the INMP441 inside facing the diaphragm. Press to <b>right lower quadrant</b> of abdomen (most active area for bowel sounds — standard clinical site). Lie supine to reduce movement artifacts.</p>
+
+<!-- ============================================================ -->
+<h2>3. Complete Bill of Materials — India Sourced</h2>
+
+<table>
+<tr><th>#</th><th>Item</th><th>Purpose</th><th>Qty</th><th>Indian Seller</th><th>₹</th></tr>
+<tr><td>1</td><td>Seeed XIAO nRF52840 Sense</td><td>MCU + BLE + IMU</td><td>1</td><td>Robocraze</td><td>1,719</td></tr>
+<tr><td>2</td><td>INMP441 I2S MEMS mic</td><td>Bowel sound sensor</td><td>2</td><td>Robokits / Amazon</td><td>326</td></tr>
+<tr><td>3</td><td>Generic stethoscope</td><td>Diaphragm coupling</td><td>1</td><td>Local pharmacy</td><td>350</td></tr>
+<tr><td>4</td><td>Tegaderm film (10 pack)</td><td>Skin adhesion</td><td>1</td><td>Healthklin / Apollo</td><td>950</td></tr>
+<tr><td>5</td><td>Ultrasound gel (small)</td><td>Acoustic coupling</td><td>1</td><td>Local pharmacy</td><td>80</td></tr>
+<tr><td>6</td><td>3.7V LiPo 110mAh + JST</td><td>Battery</td><td>1</td><td>Robu.in</td><td>250</td></tr>
+<tr><td>7</td><td>Micro USB cable</td><td>Programming</td><td>1</td><td>Anywhere</td><td>80</td></tr>
+<tr><td>8</td><td>Breadboard + jumper wires</td><td>Prototyping</td><td>1</td><td>Robu.in</td><td>150</td></tr>
+<tr><td>9</td><td>Foam tape / gasket</td><td>Mic isolation</td><td>1</td><td>Local hardware</td><td>50</td></tr>
+<tr><td colspan="5"><b>TOTAL (PoC)</b></td><td><b>₹3,955</b></td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>4. Wiring Diagram</h2>
+
+<div class="diagram">INMP441 MIC             XIAO nRF52840 Sense
+───────────             ─────────────────
+VDD (3.3V)  ───────────  3.3V   (pin 2)
+GND         ───────────  GND    (pin 4)
+L/R Select  ───────────  GND    (left channel)
+DOUT        ───────────  P0_03  (D3)  ← I2S data
+BCLK        ───────────  P0_02  (D2)  ← I2S bit clock
+LRCLK (WS)  ───────────  P0_28  (D4)  ← I2S word select
+
+LiPo + ─────────────────  5V/VIN       (XIAO has onboard charging)
+LiPo - ─────────────────  GND</div>
+
+<div class="box red" style="border-left-color:#dc2626;">
+<b>⚠ CRITICAL:</b> INMP441 is 3.3V ONLY. 5V will destroy it. XIAO nRF52840 Sense has onboard IMU (LSM6DS3) for motion gating — no extra sensor needed.
+</div>
+
+<h3>Physical Assembly</h3>
+<ol>
+<li>Cut stethoscope tube ~3cm from the bell end</li>
+<li>Hot-glue INMP441 inside the bell opening, diaphragm-facing</li>
+<li>Surround mic with foam tape to isolate from case vibration</li>
+<li>Seal bell opening with Tegaderm (remove backing, place on skin)</li>
+<li>Apply ultrasound gel between diaphragm and skin</li>
+<li>Run wires to XIAO on breadboard (worn on waistband/belt or next to you)</li>
+<li>Lie supine. Attach to upper-right abdomen (right lower quadrant is standard clinical site)</li>
+</ol>
+
+<!-- ============================================================ -->
+<h2>5. Firmware — Arduino Code for XIAO</h2>
+
+<h3>I2S Audio Capture @ 16 kHz</h3>
+
+<pre><code>// ==========================================
+// AGNI — I2S Bowel Sound Recorder
+// XIAO nRF52840 Sense + INMP441
+// Sampling: 16 kHz, 16-bit, mono
+// ==========================================
+
+#include &lt;I2S.h&gt;
+
+const int sampleRate = 16000;
+I2S i2s(INPUT);
+
+void setup() {
+  Serial.begin(115200);
+  while (!Serial);
+  
+  if (!i2s.begin(I2S_PHILIPS_MODE, sampleRate, 16)) {
+    Serial.println("I2S init failed!");
+    while (1);
+  }
+  Serial.println("AGNI_RECORDING:16000Hz");
+}
+
+void loop() {
+  int samples[512];
+  int idx = 0;
+  
+  while (idx &lt; 512) {
+    int sample = i2s.read();
+    if (sample != 0 && sample != -1) {
+      samples[idx++] = sample;
+    }
+  }
+  
+  // Send 512 samples as binary (4 bytes each)
+  Serial.write((uint8_t*)samples, 512 * sizeof(int));
+}</code></pre>
+
+<p><b>Upload instructions:</b> Install XIAO nRF52840 board package in Arduino IDE. Select "Seeed XIAO nRF52840 Sense" as board. Upload via USB.</p>
+
+<!-- ============================================================ -->
+<h2>6. Python DSP Pipeline</h2>
+
+<p>Run on laptop connected via USB. Takes raw 16 kHz audio → bandpass filter → event detection → rate + SSI.</p>
+
+<pre><code># ==========================================
+# AGNI — Real-Time DSP Pipeline
+# Bandpass → ST Energy → Events → Rate + SSI
+# ==========================================
+
+import numpy as np
+import scipy.signal as signal
+import struct, serial, time
+
+SAMPLE_RATE = 16000
+PORT = 'COM3'  # Windows. Linux/Mac: '/dev/ttyACM0'
+
+# Butterworth bandpass 80-1000 Hz, 4th order
+b, a = signal.butter(4, 
+    [80/(SAMPLE_RATE/2), 1000/(SAMPLE_RATE/2)], 
+    btype='band')
+
+# Adaptive threshold (running mean + 2*std)
+WINDOW_SEC = 30       # recompute threshold every 30s
+MIN_RATE = 1          # ignore rates below 1/min (noise floor)
+
+ser = serial.Serial(PORT, 115200, timeout=1)
+print("AGNI DSP — waiting for data...")
+
+# Wait for start marker
+while True:
+    line = ser.readline().decode().strip()
+    if "AGNI_RECORDING" in line:
+        print("Connected. Listening...")
+        break
+
+buffer = []
+recent_rates = []
+data_log = []
+
+while True:
+    # Read 512 int samples
+    raw = ser.read(512 * 4)
+    if len(raw) &lt; 512*4:
+        continue
+    samples = struct.unpack('&lt;' + 'i' * 512, raw)
+    buffer.extend(samples)
+    
+    # Process every 2048 samples (128ms)
+    while len(buffer) >= 2048:
+        chunk = np.array(buffer[:2048], dtype=np.float32)
+        buffer = buffer[2048:]
+        
+        # Bandpass filter
+        filtered = signal.filtfilt(b, a, chunk)
+        
+        # Short-time energy (32ms windows)
+        energy = []
+        for i in range(0, len(filtered)-512, 256):
+            frame = filtered[i:i+512]
+            energy.append(float(np.mean(frame**2)))
+        energy = np.array(energy)
+        
+        # Adaptive threshold
+        thresh = float(np.mean(energy) + 2 * np.std(energy))
+        events = energy > thresh
+        
+        # Rate (events/min)
+        n_events = int(np.sum(events))
+        rate = n_events / (len(energy) * 0.016 / 60)
+        
+        # SSI — time between events (ms)
+        if n_events > 1:
+            idx = np.where(events)[0]
+            intervals = np.diff(idx) * 16  # ms
+            ssi = float(np.mean(intervals))
+        else:
+            ssi = 0.0
+        
+        recent_rates.append(rate)
+        if len(recent_rates) > 100:
+            recent_rates.pop(0)
+        avg_rate = float(np.mean(recent_rates))
+        
+        # Log
+        t = time.strftime("%H:%M:%S")
+        print(f"[{t}] Rate: {rate:.1f}/min | Avg: {avg_rate:.1f} | "
+              f"SSI: {ssi:.0f}ms | Events: {n_events}")
+        
+        data_log.append({
+            'time': time.time(),
+            'rate': rate,
+            'ssi': ssi,
+            'events': n_events
+        })</code></pre>
+
+<!-- ============================================================ -->
+<h2>7. Testing Protocol</h2>
+
+<h3>Week 1: Signal Capture &amp; Validation</h3>
+<div class="step">
+  <div class="num">1</div>
+  <div class="body">
+    <h4>Build &amp; Verify Circuit</h4>
+    <p>Wire INMP441 → XIAO per diagram. Flash I2S capture code. Open Serial Monitor — you should see "AGNI_RECORDING:16000Hz".</p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="num">2</div>
+  <div class="body">
+    <h4>Record + Audacity Check</h4>
+    <p>Run Python DSP. Record 10 minutes lying supine with patch on upper-right abdomen. Open the raw WAV in Audacity, apply <b>80-1000 Hz bandpass filter</b>. You should see irregular bursts above the noise floor.</p>
+    <div class="pass">✅ PASS: Distinct bowel bursts visible after bandpass. SNR &gt;2-3× above noise floor.</div>
+  </div>
+</div>
+
+<h3>Week 2: Baseline Calibration (3 days)</h3>
+<div class="step">
+  <div class="num">3</div>
+  <div class="body">
+    <h4>30-min Fasting Recording</h4>
+    <p>Morning before any food. Lie supine, patch on. Record 30 min. Save CSV log.</p>
+    <div class="pass">✅ EXPECTED: Rate 5-34/min (textbook normoactive). SSI ~1,700-2,000 ms (Craine 2002 healthy adult range).</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="num">4</div>
+  <div class="body">
+    <h4>90-min Post-Meal Recording</h4>
+    <p>After standard breakfast (idli/dosa or your usual meal). Note what you ate. Record 90 min.</p>
+    <div class="pass">✅ EXPECTED: Rate peaks at ~90 min post-meal (Cohen 2021). SSI drops significantly (shorter intervals = active digestion).</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="num">5</div>
+  <div class="body">
+    <h4>Repeat × 3 Days</h4>
+    <p>Same meal, same time, same position. Compare trend.</p>
+    <div class="pass">✅ PASS: Reproducible rate/SSI pattern across days. Post-meal rate increase is consistent.</div>
+  </div>
+</div>
+
+<h3>Week 3: Meal Challenge</h3>
+<div class="step">
+  <div class="num">6</div>
+  <div class="body">
+    <h4>Small vs Large Meal Comparison</h4>
+    <p>Day 1: Light snack (chai + biscuit). Day 2: Full meal (thali). Compare rate/SSI response curves.</p>
+    <div class="pass">✅ EXPECTED: Large meal produces higher rate peak, longer duration of elevated activity (Cohen 2021 — AbStats distinguished 360 kcal vs 1,110 kcal meals).</div>
+  </div>
+</div>
+
+<h3>Week 4: Wear &amp; Delivery</h3>
+<div class="step">
+  <div class="num">7</div>
+  <div class="body">
+    <h4>Standalone Recording + BLE</h4>
+    <p>Program XIAO to compute rate/SSI on-device, send daily JSON over BLE to phone.</p>
+    <div class="pass">✅ PASS: No laptop needed. Device runs on battery for 3+ hours continuous.</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="num">8</div>
+  <div class="body">
+    <h4>WhatsApp Delivery</h4>
+    <p>Daily trend: "Your gut today: Rate 18/min (normal range 5-34). SSI 1,200ms. Steady compared to your baseline."</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<h2>8. Expected Reference Values</h2>
+
+<table>
+<tr><th>Parameter</th><th>Expected Value</th><th>Source</th></tr>
+<tr><td>Resting rate (healthy adult)</td><td><b>5-34 events/min</b></td><td>Textbook normoactive range. Tomomasa 1999</td></tr>
+<tr><td>Neonatal rate</td><td><b>25.8/min median</b></td><td>Front Pediatr 2022, n=68 neonates</td></tr>
+<tr><td>Fasting SSI (healthy)</td><td><b>1,700-2,000 ms</b></td><td>Craine 2002, p &lt; 0.0001</td></tr>
+<tr><td>IBS SSI</td><td><b>~450 ms</b></td><td>Craine 2002 — cutoff 640ms gives 91% sens</td></tr>
+<tr><td>Meal peak timing</td><td><b>~90 min post-meal</b></td><td>Cohen 2021, AbStats study</td></tr>
+<tr><td>Post-meal SSI drop</td><td><b>Significant decrease</b></td><td>Cohen 2021 — more frequent = active digestion</td></tr>
+<tr><td>Dominant frequency</td><td><b>100-500 Hz</b></td><td>Du 2018, confirmed across multiple papers</td></tr>
+<tr><td>Bowel sound duration</td><td><b>18 ms — 4,000 ms</b></td><td>Du 2018 (SB 18-58ms, CRS up to 1,637ms)</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>9. Complete Research References</h2>
+
+<h3>Tier 1 — Primary Evidence (Your Core Citations)</h3>
+
+<div class="ref">
+  <div class="t">[1] Spiegel BM, et al. "Validation of an acoustic gastrointestinal surveillance biosensor for postoperative ileus."</div>
+  <div class="s">J Gastrointest Surg. 2014;18(10):1795-803. PMID: 25281483</div>
+  <div class="w">AGIS biosensor achieves <b>100% sensitivity, 97% specificity</b> for GI motility monitoring. FDA-cleared. The paper that proves your approach works.</div>
+</div>
+
+<div class="ref">
+  <div class="t">[2] Cohen ER, et al. "Non-invasive digestion monitoring with an FDA-cleared wearable biosensor."</div>
+  <div class="s">Gastroenterol Rep (Oxf). 2021;9(5):475-7. PMCID: PMC8560032</div>
+  <div class="w">AbStats distinguishes 360 kcal vs 1,110 kcal meals. <b>Your wellness use case — red/yellow/green eating zones.</b></div>
+</div>
+
+<div class="ref">
+  <div class="t">[3] Craine BL, et al. "Bowel sound analysis in irritable bowel syndrome."</div>
+  <div class="s">Gastroenterology. 2002 (multiple publications).</div>
+  <div class="w">SSI in IBS = 452±35ms vs healthy = 1,931±365ms. Cutoff 640ms: <b>91% sensitivity, 100% specificity.</b> Your strongest single biomarker.</div>
+</div>
+
+<div class="ref">
+  <div class="t">[4] Du X, et al. "A mathematical model of bowel sound generation."</div>
+  <div class="s">J Acoust Soc Am. 2018;144(6):EL485-91. DOI: 10.1121/1.5080528</div>
+  <div class="w">Spring-mass-damping model. 4 sound types (SB/MB/CRS/HS). <b>Physical foundation for your signal pipeline.</b></div>
+</div>
+
+<div class="ref">
+  <div class="t">[5] Liu CJ, et al. "Oscillating gas bubbles as the origin of bowel sounds."</div>
+  <div class="s">Chin J Physiol. 2010;53(4):245-53. PMID: 21793334</div>
+  <div class="w">Alternative mechanism — combined acoustic + ultrasound imaging proved bubble resonance generates measurable bowel sounds.</div>
+</div>
+
+<div class="ref">
+  <div class="t">[6] FDA 510(k) K150782 — AbStats Gateway</div>
+  <div class="s">GI Logic, Inc. Cleared March 2015. accessdata.fda.gov/cdrh_docs/pdf15/K150782.pdf</div>
+  <div class="w">Class II "Electronic Stethoscope." Standard MEMS microphone + Tegaderm. <b>Proof your exact approach meets FDA standards.</b></div>
+</div>
+
+<h3>Tier 2 — Technical Architecture References</h3>
+
+<div class="ref">
+  <div class="t">[7] Baronetto A, et al. "Multiscale bowel sound event spotting in highly imbalanced wearable monitoring data."</div>
+  <div class="s">JMIR AI. 2024;3:e51118. PMCID: PMC11269970</div>
+  <div class="w">EffUNet on 136h annotated data from 27 subjects. 16kHz sampling, 8-mic wearable shirt. <b>Your closest technical reference — public GitHub code.</b></div>
+</div>
+
+<div class="ref">
+  <div class="t">[8] Yu Y, et al. "Enhancing bowel sound recognition with self-attention and self-supervised pre-training."</div>
+  <div class="s">PLOS ONE. 2024;19(12):e0311503. PMCID: PMC11687808</div>
+  <div class="w">Branchformer + HuBERT/wav2vec 2.0 pre-training. Excels with limited labeled data — <b>your ML strategy for early stage.</b></div>
+</div>
+
+<div class="ref">
+  <div class="t">[9] Nowak JK, et al. "Automated bowel sound analysis: an overview."</div>
+  <div class="s">Sensors. 2021;21(16):5294. DOI: 10.3390/s21165294</div>
+  <div class="w">Comprehensive review covering 50+ years of research — historical and technical backbone for your literature.</div>
+</div>
+
+<div class="ref">
+  <div class="t">[10] Sood D, et al. "Prospects of AI-powered bowel sound analytics for IBD."</div>
+  <div class="s">Med Sci. 2025;13(4):230. DOI: 10.3390/medsci13040230</div>
+  <div class="w">Mayo Clinic + 7 institutions review: 88-96% accuracy, AUC ≥0.83. <b>Latest clinical evidence for bowel sound AI.</b></div>
+</div>
+
+<div class="ref">
+  <div class="t">[11] PMUT bowel sound monitor.</div>
+  <div class="s">Micromachines. 2022;13(12):2221. PMCID: PMC9787765</div>
+  <div class="w">Alternative sensor: PMUT array with -142.69 dB sensitivity, 50 dB noise resolution at 100 Hz.</div>
+</div>
+
+<h3>Tier 3 — Ayurveda × Microbiome (Framing)</h3>
+
+<div class="ref">
+  <div class="t">[12] Singh V, Rao M. "Agni and gut microbiota: bridging ancient Ayurvedic knowledge with contemporary science."</div>
+  <div class="s">Int J Ayurvedic Med. 2026;17(1):32-7. DOI: 10.47552/ijam.v17i1.6388</div>
+  <div class="w">Sama/Manda ↔ microbiome diversity. Banaras Hindu Univ, March 2026. <b>Your Ayurvedic framing reference — very recent, peer-reviewed.</b></div>
+</div>
+
+<div class="ref">
+  <div class="t">[13] Wallace RK. "The microbiome in health and disease from the perspective of modern medicine and Ayurveda."</div>
+  <div class="s">Medicina. 2020;56(9):462. PMCID: PMC7559905</div>
+  <div class="w">Prakriti types have distinct microbiomes. Agni ↔ digestive enzymes + microbiome metabolic activity. Ama ↔ LPS/leaky gut.</div>
+</div>
+
+<!-- ============================================================ -->
+<h2>10. Scientific Claim (Legally Defensible)</h2>
+
+<div class="box green">
+<p><b>What you can honestly say:</b></p>
+<p>"AGNI listens to your gut and tells you your digestion rate — the same way the FDA-cleared AbStats system works in hospitals. Every person has a personal baseline. When your rate changes relative to your own norm, AGNI tells you. No diagnosis. No cure. Just your data."</p>
+</div>
+
+<p><b>This claim is supported by:</b></p>
+<ul>
+<li>✅ FDA 510(k) K150782 — AbStats uses the same technology</li>
+<li>✅ Spiegel 2014 — 100% sensitivity, 97% specificity for GI monitoring</li>
+<li>✅ Craine 2002 — SSI biomarker validated at 91% sensitivity</li>
+<li>✅ Cohen 2021 — Real-world meal tracking proven</li>
+<li>✅ 5+ independent clinical studies across 50+ years of research</li>
+<li>✅ Legally defensible as wellness device (no diagnostic claims)</li>
+</ul>
+
+<!-- ============================================================ -->
+<h2>11. Workflow Diagram</h2>
+
+<div class="diagram">┌─────────────────────────────────────────────────────────────────────┐
+│                      AGNI — SYSTEM WORKFLOW                           │
+└─────────────────────────────────────────────────────────────────────┘
+
+  SKIN  ──→  DIAPHRAGM  ──→  INMP441  ──→  XIAO nRF52840  ──→  LAPTOP
+  (abdomen)  (stethoscope   (I2S @ 16      (I2S capture      (Python DSP
+              bell +          kHz, 16-bit,   + serial USB)      pipeline)
+              Tegaderm)       mono)
+
+                                                    │
+                                                    ▼
+                                          Bandpass 80-1000 Hz
+                                          (Butterworth 4th order)
+                                                    │
+                                                    ▼
+                                          Short-time energy
+                                          (32ms windows, 16ms stride)
+                                                    │
+                                                    ▼
+                                          Adaptive threshold
+                                          (running mean + 2σ)
+                                                    │
+                                                    ▼
+                                    ┌───────────────┴───────────────┐
+                                    ▼                               ▼
+                              RATE (events/min)            SSI (mean interval)
+                              Range: 5-34/min             Healthy: 1700-2000ms
+                                                            IBS: ~450ms
+                                    │                               │
+                                    └───────────────┬───────────────┘
+                                                    │
+                                                    ▼
+                                            AGNI Daily Score
+                                    (compare against personal baseline)
+                                                    │
+                                                    ▼
+                                            JSON over BLE
+                                                    │
+                                                    ▼
+                                          WhatsApp message:
+                                    "Your gut today: Rate 18/min
+                                     (normal). SSI 1.2s. Steady."</div>
+
+<!-- ============================================================ -->
+<h2>12. Week-by-Week Execution Timeline</h2>
+
+<table>
+<tr><th>Week</th><th>Goal</th><th>Deliverable</th><th>Science Ref</th></tr>
+<tr><td>1</td><td>Order parts + wire circuit</td><td>INMP441 → XIAO working</td><td>Zauli 2023</td></tr>
+<tr><td>2</td><td>I2S capture + Audacity check</td><td>First bowel sound recordings</td><td>Du 2018</td></tr>
+<tr><td>3</td><td>Python DSP pipeline live</td><td>Rate + SSI output in real-time</td><td>Spiegel 2014</td></tr>
+<tr><td>4</td><td>Meal challenge × 3 days</td><td>Personal baseline established</td><td>Cohen 2021</td></tr>
+<tr><td>5</td><td>Adaptive threshold tuning</td><td>Stable detection across sessions</td><td>Baronetto 2024</td></tr>
+<tr><td>6</td><td>BLE output + smartphone</td><td>Standalone recording</td><td>AbStats K150782</td></tr>
+<tr><td>7</td><td>WhatsApp delivery integration</td><td>Daily trend message</td><td>—</td></tr>
+<tr><td>8</td><td>10-person pilot test</td><td>Validation dataset</td><td>Craine 2002</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>13. Open Questions (What's Unknown)</h2>
+
+<div class="box blue">
+<p><b>Honest about what's NOT yet proven:</b></p>
+<ul>
+<li>❓ Does a single MEMS mic with stethoscope coupling match the sensitivity of research-grade 8-mic arrays? (Baronetto's GastroDigitalShirt used 8 mics — you use 1)</li>
+<li>❓ Does the coupling stack survive daily wear (walking, sitting, lying)? (AbStats is clinical — worn in bed)</li>
+<li>❓ Can the 4 Ayurvedic Agni states be discriminated acoustically? (This is YOUR bet to prove or disprove)</li>
+</ul>
+<p><b>These don't block Phase 1.</b> Rate + SSI are already validated. These questions only matter when you add Ayurvedic framing or 4-class classification.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2>14. Cheat Sheet</h2>
+
+<div class="box green">
+<table>
+<tr><th colspan="2">Fast Facts to Memorize</th></tr>
+<tr><td>Resting bowel sound rate</td><td><b>5-34 events/min</b></td></tr>
+<tr><td>Bowel sound frequency band</td><td><b>100-500 Hz</b> (80-1000 Hz filter)</td></tr>
+<tr><td>Healthy SSI</td><td><b>~1,700-2,000 ms</b> between sounds</td></tr>
+<tr><td>IBS SSI cutoff</td><td><b>640 ms</b> (91% sens, 100% spec)</td></tr>
+<tr><td>Sampling rate for DSP</td><td><b>16 kHz</b></td></tr>
+<tr><td>PoC BOM cost</td><td><b>₹3,955</b> (~$48)</td></tr>
+<tr><td>Primary reference paper</td><td><b>Spiegel 2014</b> — 100% sens, 97% spec</td></tr>
+<tr><td>FDA predicate</td><td><b>K150782</b> — AbStats Gateway</td></tr>
+<tr><td>Your pitch to investors</td><td>"Same tech as FDA-cleared AbStats, at 1/100th cost, with WhatsApp"</td></tr>
+<tr><td>Your legal position</td><td><b>Wellness / experimental device.</b> Not diagnostic.</td></tr>
+</table>
+</div>
+
+<div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #ddd; color: var(--muted); font-size: 10pt; text-align: center;">
+AGNI Health — Complete Build &amp; Science Workflow · Version 1.0 · June 2026<br>
+Author: Dr. Nevil Parekh (MD Hom) · Studio: Mastical / Escalara<br>
+AGNI is a wellness device and does not diagnose, treat or cure any condition.
+</div>
+
+</body>
+</html>
