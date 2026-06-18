@@ -1,0 +1,11 @@
+=== Spiegel_2014 ===
+Title: Estimated daily salt intake in relation to blood pressure and blood lipids: the role of obesity.
+PMID: 25281483
+
+Excessive salt intake causes increased blood pressure which is considered the leading risk for premature death. One major challenge when evaluating associations between daily salt intake and markers of non-communicable diseases is that a high daily salt intake correlates with obesity, which is also a well described risk factor for poor cardiometabolic outcome. The aim of this study was to evaluate the relationship of estimated daily salt intake with blood pressure and blood lipids and to investigate the effect of taking different measures of obesity into account.
+
+We included 3294 men and women aged 18-69 years from a general population based study in Copenhagen, Denmark. Estimated 24-hour sodium excretion was calculated by measurements of creatinine and sodium concentration in spot urine in combination with information of sex, age, height and weight. The relations of estimated 24-hour sodium excretion with blood pressure and blood lipids were evaluated by linear regression models.
+
+The daily mean estimated intake of salt was 10.80&#x2009;g and 7.52&#x2009;g among men and women, respectively. Daily salt intake was significantly associated with blood pressure (&#x3b2;-estimates 1.18&#x2009;mm Hg/g salt (systolic) and 0.74&#x2009;mm Hg/g salt (diastolic), p&#x2009;&lt;&#x2009;0.0001) - however this association was markedly affected by adjustment for obesity (&#x3b2;-estimates around 0.60&#x2009;mm Hg/g salt (systolic) and around 0.25&#x2009;mm Hg/g salt (diastolic), p&#x2009;&lt;&#x2009;0.05). Also associations between daily salt intake and blood lipids were highly affected by adjustment for obesity.
+
+Associations of estimated daily salt intake with blood pressure and blood lipids were highly affected by adjustment for obesity.

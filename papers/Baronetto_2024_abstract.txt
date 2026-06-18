@@ -1,0 +1,13 @@
+=== Baronetto_2024 ===
+Title: Multiscale Bowel Sound Event Spotting in Highly Imbalanced Wearable Monitoring Data: Algorithm Development and Validation Study.
+PMID: 38985504
+
+Abdominal auscultation (i.e., listening to bowel sounds (BSs)) can be used to analyze digestion. An automated retrieval of BS would be beneficial to assess gastrointestinal disorders noninvasively.
+
+This study aims to develop a multiscale spotting model to detect BSs in continuous audio data from a wearable monitoring system.
+
+We designed a spotting model based on the Efficient-U-Net (EffUNet) architecture to analyze 10-second audio segments at a time and spot BSs with a temporal resolution of 25 ms. Evaluation data were collected across different digestive phases from 18 healthy participants and 9 patients with inflammatory bowel disease (IBD). Audio data were recorded in a daytime setting with a smart T-Shirt that embeds digital microphones. The data set was annotated by independent raters with substantial agreement (Cohen &#x3ba; between 0.70 and 0.75), resulting in 136 hours of labeled data. In total, 11,482 BSs were analyzed, with a BS duration ranging between 18 ms and 6.3 seconds. The share of BSs in the data set (BS ratio) was 0.0089. We analyzed the performance depending on noise level, BS duration, and BS event rate. We also report spotting timing errors.
+
+Leave-one-participant-out cross-validation of BS event spotting yielded a median F1-score of 0.73 for both healthy volunteers and patients with IBD. EffUNet detected BSs under different noise conditions with 0.73 recall and 0.72 precision. In particular, for a signal-to-noise ratio over 4 dB, more than 83% of BSs were recognized, with precision of 0.77 or more. EffUNet recall dropped below 0.60 for BS duration of 1.5 seconds or less. At a BS ratio greater than 0.05, the precision of our model was over 0.83. For both healthy participants and patients with IBD, insertion and deletion timing errors were the largest, with a total of 15.54 minutes of insertion errors and 13.08 minutes of deletion errors over the total audio data set. On our data set, EffUNet outperformed existing BS spotting models that provide similar temporal resolution.
+
+The EffUNet spotter is robust against background noise and can retrieve BSs with varying duration. EffUNet outperforms previous BS detection approaches in unmodified audio data, containing highly sparse BS events.
